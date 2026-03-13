@@ -1,0 +1,6 @@
+.answer-widget-file-uploader .files:not(:has(li)) {
+    display: none;
+}
+.answer-widget-file-uploader .files:has(li) + .no-files {
+    display: none;
+}
