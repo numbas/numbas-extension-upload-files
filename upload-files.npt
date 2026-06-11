@@ -1,0 +1,93 @@
+{
+    "source": {
+        "author": {
+            "name": "Christian Lawson-Perfect"
+        }
+    },
+    "name": "Upload files",
+    "short_name": "upload-files",
+    "description": "<p>Allows the student to upload files for their answer.</p>\n<p>Can't be marked automatically.</p>",
+    "help_url": "",
+    "input_widget": "file-uploader",
+    "input_options": {
+        "correctAnswer": "[]",
+        "hint": {
+            "static": false,
+            "value": "join(x for: x of: \n  [ if(settings[\"max_num_files\"]=0,\"\", \"Upload at most {settings[\\\"max_num_files\\\"]} {pluralise(settings[\\\"max_num_files\\\"],'file','files')}.\")\n  , if(settings[\"max_file_size\"]=0,\"\",\" The total size of your files must be less than {settings[\\\"max_file_size\\\"]}MB.\")\n  , if(settings[\"allowed_types\"]=[],\"\", \"The following file types are allowed: {join('<code>'+x+'</code>' for: x of: settings['allowed_types'], ', ')}.\")\n  ]\n  where: x<>false, \" \"\n)"
+        },
+        "upload_url": {
+            "static": false,
+            "value": "settings[\"url\"]"
+        },
+        "accept_types": {
+            "static": false,
+            "value": "settings[\"allowed_types\"]"
+        },
+        "max_file_size": {
+            "static": false,
+            "value": "string(settings[\"max_file_size\"])"
+        },
+        "max_num_files": {
+            "static": false,
+            "value": "string(settings[\"max_num_files\"])"
+        }
+    },
+    "can_be_gap": true,
+    "can_be_step": true,
+    "marking_script": "mark:\nfeedback(\"You have uploaded {len(studentAnswer)} {pluralise(len(studentAnswer),'file','files')}.\")\n\ninterpreted_answer:\nstudentAnswer",
+    "marking_notes": [
+        {
+            "name": "mark",
+            "description": "This is the main marking note. It should award credit and provide feedback based on the student's answer.",
+            "definition": "feedback(\"You have uploaded {len(studentAnswer)} {pluralise(len(studentAnswer),'file','files')}.\")"
+        },
+        {
+            "name": "interpreted_answer",
+            "description": "A value representing the student's answer to this part.",
+            "definition": "studentAnswer"
+        }
+    ],
+    "settings": [
+        {
+            "name": "url",
+            "label": "URL to upload to",
+            "help_url": "",
+            "hint": "",
+            "input_type": "string",
+            "default_value": "/apps/student-files/upload",
+            "subvars": true
+        },
+        {
+            "name": "allowed_types",
+            "label": "Allowed file types",
+            "help_url": "",
+            "hint": "The file types that the student may upload. Give suffixes, e.g. <code>.txt</code>, or MIME types, e.g. <code>application/json</code>. Leave empty to allow any file type.",
+            "input_type": "list_of_strings",
+            "default_value": [],
+            "subvars": true
+        },
+        {
+            "name": "max_num_files",
+            "label": "Maximum number of files",
+            "help_url": "",
+            "hint": "The maximum number of files the student may upload. Zero means no limit.",
+            "input_type": "code",
+            "default_value": "0",
+            "evaluate": true
+        },
+        {
+            "name": "max_file_size",
+            "label": "Maximum total file size (MB)",
+            "help_url": "",
+            "hint": "The maximum allowed total size of all the uploaded files, in megabytes. Zero means no limit (which is a bad idea).",
+            "input_type": "code",
+            "default_value": "0",
+            "evaluate": true
+        }
+    ],
+    "public_availability": "restricted",
+    "published": false,
+    "extensions": [
+        "upload-files"
+    ]
+}
